@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Restaurant Menu</title>
+</head>
+<body>
+	<h1>Restaurant Menu</h1>
+
+	<label for="restaurantId">Restaurant ID:</label>
+	<input type="number" id="restaurantId">
+	<button onclick="getMenu()">Show Menu</button>
+
+	<ul id="menuList"></ul>
+
+	<script>
+		async function getMenu() {
+			const id = document.getElementById("restaurantId").value;
+			const response = await fetch(`/api/menu/${id}`);
+			const list = document.getElementById("menuList");
+			list.innerHTML = '';
+
+			if (response.ok) {
+				const items = await response.json();
+				items.forEach(item => {
+					const li = document.createElement('li');
+					li.textContent = `${item.name} - $${item.price}`;
+					list.appendChild(li);
+				});
+			} else {
+				list.innerHTML = '<li>No menu found for this restaurant</li>';
+			}
+		}
+	</script>
+</body>
+</html>

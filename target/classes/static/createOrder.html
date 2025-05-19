@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Create Order</title>
+</head>
+<body>
+<h1>Create a Delivery Order</h1>
+<form id="orderForm">
+	ID: <input type="text" id="id" required><br><br>
+	Customer Name: <input type="text" id="customerName" required><br><br>
+	Address: <input type="text" id="address" required><br><br>
+	Restaurant ID: <input type="text" id="restaurantId" required><br><br>
+	Total Price: <input type="text" id="totalPrice" required><br><br>
+	<button type="submit">Create Order</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+	const form = document.getElementById('orderForm');
+	form.addEventListener('submit', async (e) => {
+	e.preventDefault();
+
+	const order = {
+		id: document.getElementById('id').value,
+		customerName: document.getElementById('customerName').value,
+		address: document.getElementById('address').value,
+		restaurantId: document.getElementById('restaurantId').value,
+		totalPrice: parseInt(document.getElementById('totalPrice').value)
+	};
+
+	const response = await fetch('/api/orders', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify(order)
+	});
+
+	if (response.ok) {
+		const createdOrder = await response.json();
+		document.getElementById('result').textContent = 'Order created with ID: ' + createdOrder.id;
+	} else {
+		document.getElementById('result').textContent = 'Failed to create order';
+	}
+	});
+</script>
+</body>
+</html>

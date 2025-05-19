@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add Restaurant</title>
+</head>
+<body>
+	<h1>Add New Restaurant</h1>
+
+	<form id="restaurantForm">
+		<label>ID: <input type="number" id="id" required></label><br>
+		<label>Name: <input type="text" id="name" required></label><br>
+		<label>City: <input type="text" id="city" required></label><br>
+		<label>Rating: <input type="number" step="0.1" id="rating" required></label><br>
+		<button type="submit">Add</button>
+	</form>
+
+	<p id="result"></p>
+
+	<script>
+		document.getElementById('restaurantForm').addEventListener('submit', async (e) => {
+			e.preventDefault();
+
+			const restaurant = {
+				id: parseInt(document.getElementById('id').value),
+				name: document.getElementById('name').value,
+				city: document.getElementById('city').value,
+				rating: parseFloat(document.getElementById('rating').value)
+			};
+
+			const response = await fetch('/api/restaurants', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(restaurant)
+			});
+
+			const result = document.getElementById('result');
+			if (response.ok) {
+				const newRestaurant = await response.json();
+				result.textContent = `Added: ${newRestaurant.name} in ${newRestaurant.city} with rating ${newRestaurant.rating}`;
+			} else {
+				result.textContent = 'Failed to add restaurant';
+			}
+		});
+	</script>
+</body>
+</html>

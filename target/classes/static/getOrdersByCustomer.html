@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Get Orders by Customer</title>
+</head>
+<body>
+<h1>Find Orders by Customer Name</h1>
+<form id="searchForm">
+	Customer Name: <input type="text" id="customerName" required>
+	<button type="submit">Search</button>
+</form>
+
+<ul id="ordersList"></ul>
+<div id="message"></div>
+
+<script>
+	const form = document.getElementById('searchForm');
+	form.addEventListener('submit', async (e) => {
+	e.preventDefault();
+
+	const customerName = document.getElementById('customerName').value;
+
+	const response = await fetch(`/api/orders/by-customer?customerName=${encodeURIComponent(customerName)}`);
+
+	if (response.ok) {
+		const orders = await response.json();
+		const ordersList = document.getElementById('ordersList');
+		ordersList.innerHTML = '';
+		orders.forEach(order => {
+		const li = document.createElement('li');
+		li.textContent = `Order #${order.id} for ${order.customerName}, address: ${order.address}, restaurantId: ${order.restaurantId}, totalPrice: ${order.totalPrice}`;
+		ordersList.appendChild(li);
+		});
+		document.getElementById('message').textContent = '';
+	} else if (response.status === 404) {
+		document.getElementById('message').textContent = 'No orders found for this customer';
+		document.getElementById('ordersList').innerHTML = '';
+	} else {
+		document.getElementById('message').textContent = 'Error retrieving orders';
+	}
+	});
+</script>
+</body>
+</html>
