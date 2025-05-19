@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Home Page</title>
+	<style>
+		body {
+			font-family: 'Comic Sans MS', cursive, sans-serif;
+			background-color: #f0f8ff;
+			text-align: center;
+			padding-top: 50px;
+		}
+		button {
+			margin: 20px;
+			padding: 15px 30px;
+			font-size: 18px;
+			cursor: pointer;
+			background-color: #4caf50;
+			border: none;
+			color: white;
+			border-radius: 8px;
+			box-shadow: 2px 2px 5px #aaa;
+			transition: background-color 0.3s ease;
+		}
+		button:hover {
+			background-color: #45a049;
+		}
+	</style>
+</head>
+<body>
+	<h1>Welcome to Food Delivery App</h1>
+	<button onclick="location.href='/register.html'">Register</button><br><br>
+	<button onclick="location.href='/createOrder.html'">Create Order</button>
+	<button onclick="location.href='/getOrdersByCustomer.html'">Get Orders By Customer</button><br><br>
+	<button onclick="location.href='/menu.html'">Get Menu Items By Restaurant</button>
+	<button onclick="location.href='/addMenuItem.html'">Create Menu Item</button><br><br>
+	<button onclick="location.href='/restaurants.html'">Get Restaurants</button>
+	<button onclick="location.href='/addRestaurant.html'">Create Restaurant</button>
+	<button onclick="location.href='/getRestaurantById.html'">Get Restaurant By ID</button>
+</body>
+</html>

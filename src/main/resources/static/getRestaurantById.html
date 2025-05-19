@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Find Restaurant by ID</title>
+</head>
+<body>
+	<h1>Find Restaurant</h1>
+
+	<label for="restaurantId">Enter ID:</label>
+	<input type="number" id="restaurantId">
+	<button onclick="findRestaurant()">Find</button>
+
+	<p id="info"></p>
+
+	<script>
+		async function findRestaurant() {
+			const id = document.getElementById("restaurantId").value;
+			const response = await fetch(`/api/restaurants/${id}`);
+			const info = document.getElementById("info");
+
+			if (response.ok) {
+				const r = await response.json();
+				info.textContent = `${r.name} (${r.city}) - Rating: ${r.rating}`;
+			} else {
+				info.textContent = "Restaurant not found";
+			}
+		}
+	</script>
+</body>
+</html>

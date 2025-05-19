@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>All Restaurants</title>
+</head>
+<body>
+	<h1>Restaurants List</h1>
+	<button onclick="getRestaurants()">Load Restaurants</button>
+	<ul id="restaurantList"></ul>
+
+	<script>
+		async function getRestaurants() {
+			const response = await fetch('/api/restaurants');
+			const list = document.getElementById('restaurantList');
+			list.innerHTML = '';
+
+			if (response.ok) {
+				const restaurants = await response.json();
+				restaurants.forEach(r => {
+					const li = document.createElement('li');
+					li.textContent = `${r.name} (${r.city}) - Rating: ${r.rating}`;
+					list.appendChild(li);
+				});
+			} else {
+				list.innerHTML = '<li>Could not load restaurants</li>';
+			}
+		}
+	</script>
+</body>
+</html>

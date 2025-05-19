@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Registration</title>
+</head>
+<body>
+	<h2>Register New User</h2>
+	<form id="registerForm">
+		<label>ID:</label><br>
+		<input type="number" id="id" required><br>
+
+		<label>Username:</label><br>
+		<input type="text" id="username" required><br>
+
+		<label>Password:</label><br>
+		<input type="password" id="password" required><br>
+
+		<label>Role:</label><br>
+		<input type="text" id="role" placeholder="e.g. ROLE_USER" required><br>
+
+		<button type="submit">Register</button>
+	</form>
+
+	<p id="result"></p>
+
+	<script>
+		document.getElementById('registerForm').addEventListener('submit', async (event) => {
+			event.preventDefault();
+
+			const user = {
+				id: document.getElementById('id').value,
+				username: document.getElementById('username').value,
+				password: document.getElementById('password').value,
+				role: document.getElementById('role').value
+			};
+
+			const response = await fetch('/api/auth/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(user)
+			});
+
+			const result = document.getElementById('result');
+			if (response.ok) {
+				result.textContent = 'User registered successfully!';
+				result.style.color = 'green';
+			} else {
+				const errorText = await response.text();
+				result.textContent = 'Registration failed: ' + errorText;
+				result.style.color = 'red';
+			}
+		});
+	</script>
+</body>
+</html>
